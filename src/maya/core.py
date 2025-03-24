@@ -11,7 +11,7 @@ import pytz
 import humanize
 import dateparser
 import pendulum
-import snaptime
+from python_snaptime import snap
 from tzlocal import get_localzone
 from dateutil.relativedelta import relativedelta
 from dateparser.languages.loader import default_loader
@@ -148,21 +148,20 @@ class MayaDT(object):
         """
         Returns a new MayaDT object modified by the given instruction.
 
-        Powered by snaptime.  See https://github.com/zartstrom/snaptime
+        Powered by python-snaptime.  See https://github.com/dtomlinson91/python-snaptime
         for a complete documentation about the snaptime instructions.
         """
-        return self.from_datetime(snaptime.snap(self.datetime(), instruction))
+        return self.from_datetime(snap(pendulum.instance(self.datetime()), instruction))
 
     def snap_tz(self, instruction, in_timezone):
         """
         Returns a new MayaDT object modified by the given instruction.
         The modifications happen in the given timezone.
 
-        Powered by snaptime.  See https://github.com/zartstrom/snaptime
+        Powered by python-snaptime.  See https://github.com/dtomlinson91/python-snaptime
         for a complete documentation about the snaptime instructions.
         """
-        dt_tz = self.datetime(to_timezone=in_timezone)
-        return self.from_datetime(snaptime.snap_tz(dt_tz, instruction, dt_tz.tzinfo))
+        return self.from_datetime(snap(pendulum.instance(self.datetime(to_timezone=in_timezone)), instruction))
 
     # Timezone Crap
     # -------------
